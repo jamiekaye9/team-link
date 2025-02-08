@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add a Worker</title>
+</head>
+<body>
+    <h1>Add a Worker</h1>
+    <form action="/company/add-worker" method="POST">
+        <label for="firstName">First Name</label>
+        <input type="text" name="firstName" id="firstName">
+        <label for="lastName">Last Name</label>
+        <input type="text" name="lastName" id="lastName">
+        <label for="title">Title</label>
+        <input type="text" name="title" id="title">
+        <label for="team">Team</label>
+        <input type="text" name="team" id="team">
+        <label for="manager">Manager</label>
+        <input type="text" name="manager" id="manager">
+        <label for="salary">Salary (£)</label>
+        <input type="text" name="salary" id="salary">
+        <label for="isManager">Is a Manager</label>
+        <input type="checkbox" name="isManager" id="isManager">
+        <button type="submit">Add Worker</button>
+    </form>
+</body>
+</html>

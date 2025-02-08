@@ -22,7 +22,6 @@ router.post('/sign-up', async (req, res) => {
         username: user.username,
         _id: user._id
     }
-    // res.render('auth/company.ejs')
     return res.redirect('/auth/choose-company')
 })
 
@@ -52,13 +51,7 @@ router.post('/sign-in', async (req, res) => {
     }
     console.log(req.session);
 
-    // companyId = req.session.user.company._id
-    
-    // console.log(`Redirecting to: /company/${companyId}`);
-    
-    // res.redirect(`/${companyId}`)
-    return res.redirect('/my-company')
-    // res.redirect('/company/my-company')
+    return res.redirect('/company/')
 })
 
 router.get('/sign-out', (req, res) => {
@@ -88,7 +81,7 @@ router.post('/create-company', async (req, res) => {
         }
     user.company.push(companyData)
     await user.save()
-    res.redirect(`/${req.session.user.company.companyName}`)
+    return res.redirect('/company/')
     // res.render('company/index.ejs')
 })
 
@@ -118,7 +111,7 @@ router.post('/join-company', async (req, res) => {
         }
     user.company.push(companyData)
     await user.save()
-    res.render('company/index.ejs')
+    return res.redirect('/company/')
 })
 
 module.exports = router

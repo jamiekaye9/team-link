@@ -19,7 +19,6 @@ const workerSchema = new mongoose.Schema({
     },
     manager: {
         type: String,
-        required: true
     },
     salary: {
         type: Number,
