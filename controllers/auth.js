@@ -3,10 +3,6 @@ const router = express.Router()
 const User = require('../models/user.js')
 const bcrypt = require('bcrypt')
 
-const runQueries = async () => {
-    await createCompany()
-}
-
 router.get('/sign-up', (req, res) => {
     res.render('auth/sign-up.ejs')
 })
@@ -26,7 +22,8 @@ router.post('/sign-up', async (req, res) => {
         username: user.username,
         _id: user._id
     }
-    res.render('auth/company.ejs')
+    // res.render('auth/company.ejs')
+    return res.redirect('/auth/choose-company')
 })
 
 router.get('/sign-in', (req, res) => {
@@ -47,9 +44,21 @@ router.post('/sign-in', async (req, res) => {
     }
     req.session.user = {
         username: userInDatabase.username,
-        _id: userInDatabase._id
+        _id: userInDatabase._id,
+        company: {
+            companyName: userInDatabase.company.length > 0 ? userInDatabase.company[0].companyName : null,
+            _id: userInDatabase.company.length > 0 ? userInDatabase.company[0]._id : null
+        }
     }
-    res.redirect('/')
+    console.log(req.session);
+
+    // companyId = req.session.user.company._id
+    
+    // console.log(`Redirecting to: /company/${companyId}`);
+    
+    // res.redirect(`/${companyId}`)
+    return res.redirect('/my-company')
+    // res.redirect('/company/my-company')
 })
 
 router.get('/sign-out', (req, res) => {
@@ -57,7 +66,7 @@ router.get('/sign-out', (req, res) => {
     res.redirect('/')
 })
 
-router.get('/company', (req, res) => {
+router.get('/choose-company', (req, res) => {
     res.render('auth/company.ejs')
 })
 
@@ -77,9 +86,10 @@ router.post('/create-company', async (req, res) => {
             companyName: req.body.companyName,
             password: req.body.password
         }
-        user.company.push(companyData)
-        await user.save()
-    res.send('Request to create a company received')
+    user.company.push(companyData)
+    await user.save()
+    res.redirect(`/${req.session.user.company.companyName}`)
+    // res.render('company/index.ejs')
 })
 
 router.post('/join-company', async (req, res) => {
@@ -101,14 +111,14 @@ router.post('/join-company', async (req, res) => {
     req.body.password = hashedPassword
 
     const userId = req.session.user._id
-        const user = await User.findById(userId)
-        const companyData = {
+    const user = await User.findById(userId)
+    const companyData = {
             companyName: req.body.companyName,
             password: req.body.password
         }
-        user.company.push(companyData)
-        await user.save()
-    res.send('You have joined the company')
+    user.company.push(companyData)
+    await user.save()
+    res.render('company/index.ejs')
 })
 
 module.exports = router
