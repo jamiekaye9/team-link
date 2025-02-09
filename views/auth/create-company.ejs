@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create a Company</title>
+</head>
+<body>
+    <h1>Create a Company</h1>
+    <form action="/auth/create-company" method="POST">
+        <div>
+            <label for="companyName">Company Name</label>
+            <input type="text" name="companyName" id="companyName" required>
+        </div>
+
+        <div>
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" required>
+        </div>
+
+        <div>
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" name="confirmPassword" id="confirmPassword" required>
+        </div>
+        <button type="submit">Create Company</button>
+    </form>
+</body>
+</html>

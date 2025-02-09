@@ -1,118 +1,130 @@
 const express = require('express')
 const router = express.Router()
-const User = require('../models/user.js')
 const bcrypt = require('bcrypt')
+const User = require('../models/user')
+const Company = require('../models/company')
 
-router.get('/sign-up', (req, res) => {
+router.get('/signup', (req, res) => {
     res.render('auth/sign-up.ejs')
 })
 
-router.post('/sign-up', async (req, res) => {
-    const userInDatabase = await User.findOne({ username: req.body.username })
-    if (userInDatabase) {
-        return res.send('Username already taken')
-    }
-    if (req.body.password !== req.body.confirmPassword) {
-        return res.send('Password and Confirm Password must match')
-    }
-    const hashedPassword = bcrypt.hashSync(req.body.password, 10)
-    req.body.password = hashedPassword
-    const user = await User.create(req.body)
-    req.session.user = {
-        username: user.username,
-        _id: user._id
-    }
-    return res.redirect('/auth/choose-company')
-})
-
-router.get('/sign-in', (req, res) => {
+router.get('/signin', (req, res) => {
     res.render('auth/sign-in.ejs')
 })
 
-router.post('/sign-in', async (req, res) => {
-    const userInDatabase = await User.findOne({ username: req.body.username })
-    if (!userInDatabase) {
-        return res.send('Login failed. Please try again')
-    }
-    const validPassword = bcrypt.compareSync(
-        req.body.password,
-        userInDatabase.password
-    )
-    if (!validPassword) {
-        return res.send('Login failed. Please try again')
-    }
-    req.session.user = {
-        username: userInDatabase.username,
-        _id: userInDatabase._id,
-        company: {
-            companyName: userInDatabase.company.length > 0 ? userInDatabase.company[0].companyName : null,
-            _id: userInDatabase.company.length > 0 ? userInDatabase.company[0]._id : null
+router.post('/signup', async (req, res) => {
+    try {
+        const firstName = req.body.firstName
+        const lastName = req.body.lastName
+        const username = req.body.username
+        const existingUser = await User.findOne({username})
+        if (existingUser) {
+            return res.redirect('/error')
         }
+        const password = req.body.password
+        const confirmPassword = req.body.confirmPassword
+        if (password !== confirmPassword) {
+            return res.redirect('/error')
+        }
+        const hashedPassword = await bcrypt.hashSync(password, 10)
+        await User.create({firstName, lastName, username, password: hashedPassword})
+        res.redirect('/auth/signin')
+        console.log(username)
+    } catch(error) {
+        console.log(error)
+        res.redirect('/error') 
     }
-    console.log(req.session);
-
-    return res.redirect('/company/')
 })
 
-router.get('/sign-out', (req, res) => {
-    req.session.destroy()
-    res.redirect('/')
+router.post('/signin', async (req, res) => {
+    try {
+        const username = req.body.username
+        const existingUser = await User.findOne({username})
+        if (!existingUser) {
+            return res.redirect('/error')
+        }
+        const password = req.body.password
+        const isPasswordValid = await bcrypt.compare(password, existingUser.password)
+        if (!isPasswordValid) {
+            return res.redirect('/error')
+        }
+        req.session.user = {
+            username: existingUser.username,
+            firstName: existingUser.firstName,
+            lastName: existingUser.lastName,
+            companyId: existingUser.companyId,
+            id: existingUser._id
+        }
+        if (req.session.user.companyId === null) {
+            return res.redirect('/auth/choose-company')
+        }
+        res.redirect(`/company/${req.session.user.companyId}`)
+        // res.redirect('/company/my-company')
+    } catch(error) {
+        console.log(error)
+        res.redirect('/error')  
+    }
 })
 
 router.get('/choose-company', (req, res) => {
-    res.render('auth/company.ejs')
+    res.render('auth/choose-company.ejs')
+})
+
+router.get('/create-company', (req, res) => {
+    res.render('auth/create-company.ejs')
 })
 
 router.post('/create-company', async (req, res) => {
-    const companyInDatabase = await User.findOne({ companyName: req.body.companyName })
-    if (companyInDatabase) {
-        return res.send('Company name has been taken')
-    }
-    if (req.body.password !== req.body.confirmPassword) {
-        return res.send('Password and Confirm Password must match')
-    }
-    const hashedPassword = bcrypt.hashSync(req.body.password, 10)
-    req.body.password = hashedPassword
-    const userId = req.session.user._id
-        const user = await User.findById(userId)
-        const companyData = {
-            companyName: req.body.companyName,
-            password: req.body.password
+    try {
+        const companyName = req.body.companyName
+        const existingCompany = await Company.findOne({companyName})
+        if (existingCompany) {
+            return res.redirect('/error')
         }
-    user.company.push(companyData)
-    await user.save()
-    return res.redirect('/company/')
-    // res.render('company/index.ejs')
+        const password = req.body.password
+        const confirmPassword = req.body.confirmPassword
+        if (password !== confirmPassword) {
+            return res.redirect('/error')
+        }
+        const hashedPassword = await bcrypt.hashSync(password, 10)
+        await Company.create({companyName, password: hashedPassword})
+        const company = await Company.findOne({companyName})
+        const user = await User.findById(req.session.user.id)
+        user.companyId = company._id
+        await user.save()
+        req.session.user.companyId = company._id
+        res.redirect(`/company/${company._id}`)
+    } catch(error) {
+        console.log(error)
+        res.redirect('/error') 
+    }
+})
+
+router.get('/join-company', (req, res) => {
+    res.render('auth/join-company.ejs')
 })
 
 router.post('/join-company', async (req, res) => {
-    const companyInDatabase = await User.findOne({
-        company: { $elemMatch: { companyName: req.body.companyName }}
-    })
-    if (!companyInDatabase) {
-        return res.send('Company does not exist')
-    }
-    const validPassword = bcrypt.compareSync(
-        req.body.password,
-        companyInDatabase.password
-    )
-    if (!validPassword) {
-        return res.send('Password incorrect')
-    }
-
-    const hashedPassword = bcrypt.hashSync(req.body.password, 10)
-    req.body.password = hashedPassword
-
-    const userId = req.session.user._id
-    const user = await User.findById(userId)
-    const companyData = {
-            companyName: req.body.companyName,
-            password: req.body.password
+    try {
+        const companyName = req.body.companyName
+        const existingCompany = await Company.findOne({companyName})
+        if (!existingCompany) {
+            return res.redirect('/error')
         }
-    user.company.push(companyData)
-    await user.save()
-    return res.redirect('/company/')
+        const password = req.body.password
+        const isPasswordValid = await bcrypt.compare(password, existingCompany.password)
+        if (!isPasswordValid) {
+            return res.redirect('/error')
+        }
+        const user = await User.findById(req.session.user.id)
+        user.companyId = existingCompany._id
+        await user.save()
+        req.session.user.companyId = existingCompany._id
+        res.redirect(`/company/${existingCompany._id}`)
+    } catch(error) {
+        console.log(error)
+        res.render('/error')  
+    }
 })
 
 module.exports = router
-
