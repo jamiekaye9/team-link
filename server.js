@@ -9,7 +9,7 @@ const session = require('express-session')
 const User = require('./models/user')
 const Company = require('./models/company')
 
-const PORT = process.env.port || 3004
+const PORT = process.env.port || 3005
 
 mongoose.connect(process.env.MONGODB_URI)
 
@@ -40,17 +40,22 @@ const authController = require('./controllers/auth')
 app.use('/auth', authController)
 
 app.get('/company/:id', async (req, res) => {
-    const userId = req.session.user.id
-    const user = await User.findById(userId)
-    const company = await Company.findOne(user.companyId)
-    console.log(company);
+    const companyId = req.params.id
+    const company = await Company.findById(companyId)
     const companyName = company.companyName
-    res.render('company/my-company.ejs', {companyName})
+    const workers = company.workers
+    res.render('company/my-company.ejs', {companyId, companyName, workers})
 })
-
-app.get('/company/:id/add-worker', (req, res) => {
-    const companyId = req.session.user.companyId
-    res.render('company/add-worker.ejs', companyId)
+app.get('/company/:id/add-worker', async (req, res) => {
+    const companyId = req.params.id
+    const company = await Company.findById(companyId)
+    let managers = company.workers
+    managers = managers.filter(manager => manager.isManager === true)
+    console.log(managers);
+    
+    console.log(company);
+    
+    res.render('company/add-worker.ejs', {companyId, managers})
 })
 
 app.post('/company/:id/add-worker', async (req, res) => {
@@ -59,14 +64,15 @@ app.post('/company/:id/add-worker', async (req, res) => {
     } else {
         req.body.isManager = false
     }
-    const company = await Company
-    const firstName = req.body.firstName
-    const lastName = req.body.lastName
-    const jobTitle = req.body.jobTitle
-    const team = req.body.team
-    const manager = req.body.manager
-    const salary = req.body.salary
-
+    if (req.body.manager === 'None') {
+        req.body.manager = null
+    }
+    const companyId = req.params.id
+    console.log(companyId);
+    const company = await Company.findById(companyId)
+    company.workers.push(req.body)
+    await company.save()
+    res.redirect(`/company/${companyId}`)
 })
 
 app.listen(PORT, () => {

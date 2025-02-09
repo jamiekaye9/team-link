@@ -59,7 +59,6 @@ router.post('/signin', async (req, res) => {
             return res.redirect('/auth/choose-company')
         }
         res.redirect(`/company/${req.session.user.companyId}`)
-        // res.redirect('/company/my-company')
     } catch(error) {
         console.log(error)
         res.redirect('/error')  
