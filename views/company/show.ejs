@@ -7,5 +7,10 @@
 </head>
 <body>
     <h1><%= worker.firstName %> <%= worker.lastName %></h1>
+    <a href="/company/<%= companyId %>/<%= worker._id %>/edit">Edit Worker</a>
+    <a href="/company/<%= companyId %>">Back to Workers</a>
+    <form action="/company/<%= companyId %>/<%= worker._id %>?_method=DELETE" method="POST">
+        <button type="submit">Delete Worker</button>
+    </form>
 </body>
 </html>

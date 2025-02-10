@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Worker</title>
+</head>
+<body>
+    <h1>Edit Worker</h1>
+    <form action="/company/<%= companyId %>/<%= worker._id %>?_method=PUT" method="POST">
+        <div>
+            <label for="firstName">First Name</label>
+            <input type="text" name="firstName" id="firstName" value="<%= worker.firstName %>">
+        </div>
+        <div>
+            <label for="lastName">Last Name</label>
+            <input type="text" name="lastName" id="lastName" required value="<%= worker.lastName %>">
+        </div>
+        <div>
+            <label for="jobTitle">Job Title</label>
+            <input type="text" name="jobTitle" id="jobTitle" value="<%= worker.jobTitle %>">
+        </div>
+        <div>
+            <label for="team">Team</label>
+            <input type="text" name="team" id="team" value="<%= worker.team %>">
+        </div>
+        <div>
+            <label for="manager">Manager</label>
+            <select name="manager" id="manager">
+                <option value="none">None</option>
+                <% managers.forEach((manager) => { %>
+                    <option value='<%=manager.firstName + " " + manager.lastName%>'><%=manager.firstName + " " + manager.lastName%></option>
+                <% }) %>
+            </select>
+        </div>
+        <div>
+            <label for="salary">Salary</label>
+            <input type="text" name="salary" id="salary" value="<%= worker.salary %>">
+        </div>
+        <div>
+            <label for="isManager">Is a Manager</label>
+            <input type="checkbox" name="isManager" id="isManager" value="<%= worker.isManager %>">
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
