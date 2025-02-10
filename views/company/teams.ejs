@@ -8,33 +8,28 @@
 </head>
 <body>
     <%- include('../partials/_navbar.ejs') %>
-    <table class="table">
-        <thead class="tablehead">
+    <div class="pagediv">
+        <h1>Teams</h1>
+        <table class="table">
+          <thead class="tablehead">
             <tr>
                 <th class="tableheading">Team Name</th>
                 <th class="tableheading">Team Size</th>
             </tr>
-        </thead>
-        <tbody class="tablebody">
-            <% workers.forEach((worker)=>{ %>
-                <tr class="tablerow">
-                    <td class="tabledata">
-                        <%= worker.team %>
-                    </td>
-                    <td class="tabledata">
-                        <%= worker.jobTitle %>
-                    </td>
-                </tr>
-            <% }) %>
+          </thead>
+          <tbody class="tablebody">
+            <% uniqueTeams = [...new Set(workers.map(worker => worker.team))];
 
-        </tbody>
-    </table>
-    <%- include('../partials/_navbar.ejs') %>
-    <h1>Teams</h1>
-    <ul>
-        <% teams.forEach((team)=>{ %>
-        <li><%= team %></li>
+            uniqueTeams.forEach((teamName) => { 
+                const teamSize = workers.filter(worker => worker.team === teamName).length;
+        %>
+            <tr class="tablerow">
+                <td class="tabledata"><%= teamName %></td>
+                <td class="tabledata"><%= teamSize %></td>
+            </tr>
         <% }) %>
-      </ul>
+          </tbody>
+      </table>
+    </div>
 </body>
 </html>

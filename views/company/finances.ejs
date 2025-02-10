@@ -8,10 +8,26 @@
 </head>
 <body>
     <%- include('../partials/_navbar.ejs') %>
-    <h1>Finances</h1>
-    <div>
-        <h3>Total Spend</h3>
-        <p>£<%= totalSalary %></p>
+    <div class="pagediv">
+        <h1 class="pagetitle">Finances</h1>
+        <div class="financedash">
+              <div class="financeblock">
+                <h3>Total Spend</h3>
+                <p>£<%= totalSalary %></p>
+              </div>
+              <div class="financeblock">
+                <h3>Average Salary</h3>
+                <p>£<%= averageSalary %></p>
+              </div>
+              <div class="financeblock">
+                <h3>Highest Salary</h3>
+                <p>£<%= highestSalary %></p>
+              </div>
+              <div class="financeblock">
+                <h3>Lowest Salary</h3>
+                <p>£<%= lowestSalary %></p>
+              </div>
+        </div>
     </div>
 </body>
 </html>

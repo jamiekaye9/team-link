@@ -18,7 +18,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    width: 115px;
+    width: 160px;
     height: 100vh;
     justify-content: flex-start;
     align-items: center;
@@ -43,6 +43,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
     width: 80px;
     padding: 7px;
     border-top: 2px solid white;
@@ -77,6 +78,12 @@ body {
     background-color: rgb(224, 205, 239);
 }
 
+#workername {
+    text-decoration: none;
+    font-weight: bold;
+    color: rgb(86, 51, 114);
+}
+
 .buttons {
     display: flex;
     flex-direction: row;
@@ -105,5 +112,33 @@ body {
     margin-top: 10px;
 }
 
+.teamsdiv {
+    display: flex;
+    flex-direction: column;
+}
+
+.pagediv {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+}
+
+.financeblock {
+    background-color: rgb(224, 205, 239);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    flex-direction: column;
+}
+
+.financedash {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 15px;
+    width: 400px;
+}
 
 

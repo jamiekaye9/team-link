@@ -8,42 +8,80 @@
 </head>
 <body>
     <%- include('../partials/_navbar.ejs') %>
-    <h1>Add a Worker</h1>
-    <form action="/company/<%= companyId %>/add-worker" method="POST">
-        <div>
-            <label for="firstName">First Name</label>
-            <input type="text" name="firstName" id="firstName" required>
-        </div>
-        <div>
-            <label for="lastName">Last Name</label>
-            <input type="text" name="lastName" id="lastName" required>
-        </div>
-        <div>
-            <label for="jobTitle">Job Title</label>
-            <input type="text" name="jobTitle" id="jobTitle">
-        </div>
-        <div>
-            <label for="team">Team</label>
-            <input type="text" name="team" id="team">
-        </div>
-        <div>
-            <label for="manager">Manager</label>
-            <select name="manager" id="manager">
-                <option value="none">None</option>
-                <% managers.forEach((manager) => { %>
-                    <option value='<%=manager.firstName + " " + manager.lastName%>'><%=manager.firstName + " " + manager.lastName%></option>
-                <% }) %>
-            </select>
-        </div>
-        <div>
-            <label for="salary">Salary</label>
-            <input type="text" name="salary" id="salary">
-        </div>
-        <div>
-            <label for="isManager">Is a Manager</label>
-            <input type="checkbox" name="isManager" id="isManager">
-        </div>
-        <button type="submit">Add Worker</button>
-    </form>
+    <div class="pagediv">
+        <h1>Add a Worker</h1>
+        <form action="/company/<%= companyId %>/add-worker" method="POST">
+            <table class="table">
+                <thead class="tablehead">
+                    <tr>
+                        <th colspan="2" class="tableheading">Details</th>
+                    </tr>
+                </thead>
+                <tbody class="tablebody">
+                    <tr class="tablerow">
+                        <td class="tabledata">
+                            <label for="firstName">First Name</label>
+                        </td>
+                        <td class="tabledata">
+                            <input type="text" name="firstName" id="firstName">
+                        </td>
+                    </tr>
+                    <tr class="tablerow">
+                        <td class="tabledata">
+                            <label for="lastName">Last Name</label>
+                        </td>
+                        <td class="tabledata">
+                            <input type="text" name="lastName" id="lastName" required>
+                        </td>
+                    </tr>
+                    <tr class="tablerow">
+                        <td class="tabledata">
+                            <label for="jobTitle">Job Title</label>
+                        </td>
+                        <td class="tabledata">
+                            <input type="text" name="jobTitle" id="jobTitle">
+                        </td>
+                    </tr>
+                    <tr class="tablerow">
+                        <td class="tabledata">
+                            <label for="team">Team</label>
+                        </td>
+                        <td class="tabledata">
+                            <input type="text" name="team" id="team">
+                        </td>
+                    </tr>
+                    <tr class="tablerow">
+                        <td class="tabledata">
+                            <label for="manager">Manager</label>
+                        </td>
+                        <td class="tabledata">
+                            <select name="manager" id="manager">
+                                <option id="manager" value="none">None</option>
+                                <% managers.forEach((manager) => { %>
+                                    <option value="<%= manager.firstName + ' ' + manager.lastName %>"><%= manager.firstName + ' ' + manager.lastName %></option>
+                                <% }) %>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr class="tablerow">
+                        <td class="tabledata">
+                            <label for="salary">Salary</label>
+                        </td>
+                        <td class="tabledata">
+                            <input type="text" name="salary" id="salary">
+                        </td>
+                    </tr>
+                    <tr class="tablerow">
+                        <td class="tabledata">
+                            <label for="isManager">Is a Manager</label>
+                        </td>
+                        <td class="tabledata">
+                            <input type="checkbox" name="isManager" id="isManager">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <button class="stylebuttons" id="add-worker" type="submit">Add Worker</button>
+    </div>
 </body>
 </html>

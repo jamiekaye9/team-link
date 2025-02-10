@@ -10,7 +10,7 @@
     <div class="nav">
         <%- include('../partials/_navbar.ejs') %>
     </div>
-    <div class="body">
+    <div class="pagediv">
         <h1>Edit Worker</h1>
     <form action="/company/<%= companyId %>/<%= worker._id %>?_method=PUT" method="POST">
         <table class="table">

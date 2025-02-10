@@ -44,8 +44,9 @@ router.get('/:id/teams', async (req, res) => {
     const companyId = req.session.user.companyId
     const company = await Company.findById(companyId)
     const companyName = company.companyName
+    const workers = company.workers
     const teams = [...new Set(company.workers.map(worker => worker.team))]
-    res.render('company/teams.ejs', {companyId, teams, companyName})
+    res.render('company/teams.ejs', {companyId, teams, companyName, workers})
 })
 
 router.get('/:id/finances', async (req, res) => {
@@ -60,7 +61,10 @@ router.get('/:id/finances', async (req, res) => {
     allSalaries.forEach(salary => {
         totalSalary += salary
     })
-    res.render('company/finances.ejs', {totalSalary, companyId, companyName})
+    const averageSalary = Math.round(totalSalary/allSalaries.length)
+    const highestSalary = Math.max(...allSalaries)
+    const lowestSalary = Math.min(...allSalaries)
+    res.render('company/finances.ejs', {totalSalary, companyId, companyName, averageSalary, highestSalary, lowestSalary})
 })
 
 router.get('/:companyid/:workerid', async (req, res) => {
