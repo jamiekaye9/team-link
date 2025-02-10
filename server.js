@@ -51,31 +51,62 @@ app.get('/company/:id/add-worker', async (req, res) => {
     const company = await Company.findById(companyId)
     let managers = company.workers
     managers = managers.filter(manager => manager.isManager === true)
-    console.log(managers);
-    
-    console.log(company);
-    
     res.render('company/add-worker.ejs', {companyId, managers})
 })
 
 app.post('/company/:id/add-worker', async (req, res) => {
-    if (req.body.isManager === 'on') {
-        req.body.isManager = true
-    } else {
-        req.body.isManager = false
+    try {
+        if (req.body.isManager === 'on') {
+            req.body.isManager = true
+        } else {
+            req.body.isManager = false
+        }
+        if (req.body.manager === 'None') {
+            req.body.manager = null
+        }
+        const companyId = req.params.id
+        console.log(companyId);
+        const company = await Company.findById(companyId)
+        company.workers.push(req.body)
+        await company.save()
+        res.redirect(`/company/${companyId}`)
+    } catch(error) {
+        console.log(error)
+        res.redirect('/error')
     }
-    if (req.body.manager === 'None') {
-        req.body.manager = null
-    }
-    const companyId = req.params.id
-    console.log(companyId);
+})
+
+app.get('/company/:id/teams', async (req, res) => {
+    const companyId = req.session.user.companyId
     const company = await Company.findById(companyId)
-    company.workers.push(req.body)
-    await company.save()
-    res.redirect(`/company/${companyId}`)
+    const teams = [...new Set(company.workers.map(worker => worker.team))]
+    res.render('company/teams.ejs', {companyId, teams})
+})
+
+app.get('/company/:id/finances', async (req, res) => {
+    const companyId = req.session.user.companyId
+    const company = await Company.findById(companyId)
+    let allSalaries = []
+    let totalSalary = 0
+    company.workers.forEach(worker => {
+        allSalaries.push(worker.salary)
+    })
+    allSalaries.forEach(salary => {
+        totalSalary += salary
+    })
+    res.render('company/finances.ejs', {totalSalary})
+})
+
+app.get('/company/:companyid/:workerid', async (req, res) => {
+    const workerId = req.params.workerid
+    const worker = Company.findOne({workerId})
+    // console.log(worker);
+    
+    res.render('company/show.ejs', {worker})
 })
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 })
+
 

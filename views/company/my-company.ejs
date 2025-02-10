@@ -8,9 +8,11 @@
 <body>
     <h1><%= companyName %></h1>
     <a href="/company/<%= companyId %>/add-worker">Add a Worker</a>
+    <a href="/company/<%= companyId %>/teams">Teams</a>
+    <a href="/company/<%= companyId %>/finances">Finances</a>
     <ul>
         <% workers.forEach((worker)=>{ %>
-        <li><%= worker.firstName %> <%= worker.lastName %></li>
+        <li><a href="/company/<%= companyId %>/<%= worker._id %>"><%= worker.firstName %> <%= worker.lastName %></a></li>
         <% }) %>
       </ul>
 </body>
