@@ -4,8 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Teams</title>
+    <link rel="stylesheet" href="/css/company.css">
 </head>
 <body>
+    <%- include('../partials/_navbar.ejs') %>
+    <table class="table">
+        <thead class="tablehead">
+            <tr>
+                <th class="tableheading">Team Name</th>
+                <th class="tableheading">Team Size</th>
+            </tr>
+        </thead>
+        <tbody class="tablebody">
+            <% workers.forEach((worker)=>{ %>
+                <tr class="tablerow">
+                    <td class="tabledata">
+                        <%= worker.team %>
+                    </td>
+                    <td class="tabledata">
+                        <%= worker.jobTitle %>
+                    </td>
+                </tr>
+            <% }) %>
+
+        </tbody>
+    </table>
+    <%- include('../partials/_navbar.ejs') %>
     <h1>Teams</h1>
     <ul>
         <% teams.forEach((team)=>{ %>

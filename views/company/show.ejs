@@ -4,13 +4,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="/css/company.css">
 </head>
 <body>
-    <h1><%= worker.firstName %> <%= worker.lastName %></h1>
-    <a href="/company/<%= companyId %>/<%= worker._id %>/edit">Edit Worker</a>
-    <a href="/company/<%= companyId %>">Back to Workers</a>
-    <form action="/company/<%= companyId %>/<%= worker._id %>?_method=DELETE" method="POST">
-        <button type="submit">Delete Worker</button>
-    </form>
+    <div>
+        <%- include('../partials/_navbar.ejs') %>
+    </div>
+    <div>
+        <div>
+            <h1><%= worker.firstName %> <%= worker.lastName %></h1>
+        </div>
+        <div>
+            <table class="table">
+                <thead class="tablehead">
+                    <tr>
+                        <th colspan="2" class="tableheading">Details</th>
+                    </tr>
+                </thead>
+                <tbody class="tablebody">
+                    <tr class="tablerow">
+                        <td class="tabledata">First Name</td>
+                        <td class="tabledata"><%= worker.firstName %></td>
+                    </tr>
+                    <tr class="tablerow">
+                        <td class="tabledata">Last Name</td>
+                        <td class="tabledata"><%= worker.lastName %></td>
+                    </tr>
+                    <tr class="tablerow">
+                        <td class="tabledata">Job Title</td>
+                        <td class="tabledata"><%= worker.jobTitle %></td>
+                    </tr>
+                    <tr class="tablerow">
+                        <td class="tabledata">Team</td>
+                        <td class="tabledata"><%= worker.team %></td>
+                    </tr>
+                    <tr class="tablerow">
+                        <td class="tabledata">Manager</td>
+                        <td class="tabledata"><%= worker.manager %></td>
+                    </tr>
+                    <tr class="tablerow">
+                        <td class="tabledata">Salary (£)</td>
+                        <td class="tabledata"><%= worker.salary %></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="buttons">
+                <a class="stylebuttons" href="/company/<%= companyId %>/<%= worker._id %>/edit">Edit Worker</a>
+                <form action="/company/<%= companyId %>/<%= worker._id %>?_method=DELETE" method="POST">
+                    <button class="stylebuttons" type="submit">Delete Worker</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

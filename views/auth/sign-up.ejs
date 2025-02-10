@@ -9,35 +9,36 @@
 <body>
     <img class="logo" src="/images/logo.png" alt="logo">
     <h2 class="heading">Sign Up</h2>
-    <form action="/auth/signup" method="POST">
-
-        <div class="input-group">
-            <label for="firstName">First Name</label>
-            <input type="text" name="firstName" id="firstName" required>
-        </div>
-
-        <div class="input-group">
-            <label for="lastName">Last Name</label>
-            <input type="text" name="lastName" id="lastName" required>
-        </div>
-
-        <div class="input-group">
-            <label for="username">Username</label>
-            <input type="text" name="username" id="username" required>
-        </div>
-
-        <div class="input-group">
-            <label for="password">Password</label>
-            <input type="password" name="password" id="password" required>
-        </div>
-
-        <div class="input-group">
-            <label for="confirmPassword">Confirm Password</label>
-            <input type="password" name="confirmPassword" id="confirmPassword" required>
-        </div>
-        
-        <button type="submit">Sign Up</button>
-
-    </form>
+    <div class="login">
+        <form action="/auth/signup" method="POST">
+    
+            <div class="input-group">
+                <label for="firstName">First Name</label>
+                <input type="text" name="firstName" id="firstName" required>
+            </div>
+    
+            <div class="input-group">
+                <label for="lastName">Last Name</label>
+                <input type="text" name="lastName" id="lastName" required>
+            </div>
+    
+            <div class="input-group">
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username" required>
+            </div>
+    
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" required>
+            </div>
+    
+            <div class="input-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" name="confirmPassword" id="confirmPassword" required>
+            </div>
+            
+            <button class="stylebuttons" type="submit">Sign Up</button>
+        </form>
+    </div>
 </body>
 </html>

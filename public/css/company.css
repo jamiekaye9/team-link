@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
+body {
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    font-family: 'Work Sans', serif;
+}
+
+.logo {
+    height: 70px;
+    width: 100px;
+}
+
+.navbar {
+    background-color: rgb(145, 97, 184);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 115px;
+    height: 100vh;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    color: white;
+    font-size: 15px;
+}
+
+#link {
+    color: white;
+    text-decoration: none;
+    font-size: 15px;
+}
+
+.items {
+    display: flex;
+    flex-direction: column;
+}
+
+.companyName {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80px;
+    padding: 7px;
+    border-top: 2px solid white;
+    border-bottom: 2px solid white;
+}
+
+.table {
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.tablehead, .formhead {
+    background-color: rgb(145, 97, 184);
+    color: white;
+    font-weight: 50;
+    padding: 5px;
+}
+
+.tableheading, .tabledata, .formhead {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 30px;
+    padding-right: 30px;
+    text-align: center;
+}
+
+.formhead {
+    font-weight: bold;
+}
+
+.tablebody, .tablerow, .tabledata {
+    background-color: rgb(224, 205, 239);
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    padding: 10px;
+    text-decoration: none;
+}
+
+.stylebuttons {
+    display: inline-block;
+    background-color: rgb(145, 97, 184);
+    font-family: 'Work Sans', serif;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 8px;
+    padding-right: 8px;
+    font-size: 13px;
+    text-decoration: none;
+    text-align: center;
+}
+
+#editworker {
+    margin-top: 10px;
+}
+
+
+

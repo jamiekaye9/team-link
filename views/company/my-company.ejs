@@ -4,16 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= companyName %></title>
+    <link rel="stylesheet" href="/css/company.css">
 </head>
 <body>
-    <h1><%= companyName %></h1>
-    <a href="/company/<%= companyId %>/add-worker">Add a Worker</a>
-    <a href="/company/<%= companyId %>/teams">Teams</a>
-    <a href="/company/<%= companyId %>/finances">Finances</a>
-    <ul>
-        <% workers.forEach((worker)=>{ %>
-        <li><a href="/company/<%= companyId %>/<%= worker._id %>"><%= worker.firstName %> <%= worker.lastName %></a></li>
-        <% }) %>
-      </ul>
+    <div class="nav">
+        <%- include('../partials/_navbar.ejs') %>
+    </div>
+    <div class="body">
+        <div>
+            <h1><%= companyName %></h1>
+        </div>
+        <div class="items">
+            <table class="table">
+                <thead class="tablehead">
+                    <tr>
+                        <th class="tableheading">Name</th>
+                        <th class="tableheading">Job Title</th>
+                        <th class="tableheading">Team</th>
+                        <th class="tableheading">Manager</th>
+                        <th class="tableheading">Salary</th>
+                    </tr>
+                </thead>
+                <tbody class="tablebody">
+                    <% workers.forEach((worker)=>{ %>
+                        <tr class="tablerow">
+                            <td class="tabledata">
+                                <a href="/company/<%= companyId %>/<%= worker._id %>"><%= worker.firstName %> <%= worker.lastName %></a>
+                            </td>
+                            <td class="tabledata">
+                                <%= worker.jobTitle %>
+                            </td>
+                            <td class="tabledata">
+                                <%= worker.team %>
+                            </td>
+                            <td class="tabledata">
+                                <%= worker.manager %>
+                            </td>
+                            <td class="tabledata">
+                                <%= worker.salary %>
+                            </td>
+                        </tr>
+                    <% }) %>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
 </body>
 </html>

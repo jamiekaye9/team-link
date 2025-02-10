@@ -12,9 +12,10 @@ router.get('/:id', async (req, res) => {
 router.get('/:id/add-worker', async (req, res) => {
     const companyId = req.params.id
     const company = await Company.findById(companyId)
+    const companyName = company.companyName
     let managers = company.workers
     managers = managers.filter(manager => manager.isManager === true)
-    res.render('company/add-worker.ejs', {companyId, managers})
+    res.render('company/add-worker.ejs', {companyId, managers, companyName})
 })
 
 router.post('/:id/add-worker', async (req, res) => {
@@ -42,13 +43,15 @@ router.post('/:id/add-worker', async (req, res) => {
 router.get('/:id/teams', async (req, res) => {
     const companyId = req.session.user.companyId
     const company = await Company.findById(companyId)
+    const companyName = company.companyName
     const teams = [...new Set(company.workers.map(worker => worker.team))]
-    res.render('company/teams.ejs', {companyId, teams})
+    res.render('company/teams.ejs', {companyId, teams, companyName})
 })
 
 router.get('/:id/finances', async (req, res) => {
     const companyId = req.session.user.companyId
     const company = await Company.findById(companyId)
+    const companyName = company.companyName
     let allSalaries = []
     let totalSalary = 0
     company.workers.forEach(worker => {
@@ -57,25 +60,27 @@ router.get('/:id/finances', async (req, res) => {
     allSalaries.forEach(salary => {
         totalSalary += salary
     })
-    res.render('company/finances.ejs', {totalSalary})
+    res.render('company/finances.ejs', {totalSalary, companyId, companyName})
 })
 
 router.get('/:companyid/:workerid', async (req, res) => {
     const companyId = req.params.companyid   
     const workerId = req.params.workerid
     const company = await Company.findById(companyId)
+    const companyName = company.companyName
     const worker = company.workers.id(workerId)
-    res.render('company/show.ejs', {worker, companyId})
+    res.render('company/show.ejs', {worker, companyId, companyName})
 })
 
 router.get('/:companyid/:workerid/edit', async (req, res) => {
     const companyId = req.params.companyid
     const workerId = req.params.workerid
     const company = await Company.findById(companyId)
+    const companyName = company.companyName
     const worker = company.workers.id(workerId)
     let managers = company.workers
     managers = managers.filter(manager => manager.isManager === true)
-    res.render('company/edit-worker.ejs', {companyId, worker, managers})
+    res.render('company/edit-worker.ejs', {companyId, worker, managers, companyName})
 })
 
 router.put('/:companyid/:workerid', async (req, res) => {

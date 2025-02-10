@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
 body {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Work Sans', serif;
     background-color: rgb(145, 97, 184);
     display: flex;
     flex-direction: column;
@@ -15,18 +17,18 @@ body {
     position: absolute;
     top: 10px;
     left: 10px;
-
 }
 
-form {
+.login {
     background-color: rgb(255, 255, 255);
     padding: 50px;
     border-radius: 10px;
     box-shadow: 0 0 10px 0 black;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     gap: 10px;
-    align-items: start;
 }
 
 .input-group {
@@ -45,4 +47,20 @@ button {
 
 .heading {
     color: white;
+}
+
+.stylebuttons {
+    display: inline-block;
+    background-color: rgb(145, 97, 184);
+    font-family: 'Work Sans', serif;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 8px;
+    padding-right: 8px;
+    font-size: 13px;
+    text-decoration: none;
+    text-align: center;
 }

@@ -4,14 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
-    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/auth.css">
 </head>
 <body>
-    <h1>Welcome <%= user ? user.firstName: 'Guest' %> to Team Link</h1>
-    <% if (!user) { %>
-        <p>Please sign in</p>
-        <a href="/auth/signin">Sign In</a>
-        <p>Or <a href="/auth/signup">Sign Up</a> </p>
-    <% } %>
+    <div class="login">
+        <img class="logo" src="/images/logo.png" alt="logo">
+        <h1>Welcome to Team Link</h1>
+        <% if (!user) { %>
+            <p>Please sign in</p>
+            <p>
+                <a class="stylebuttons" href="/auth/signin">Sign In</a>   or   
+                <a class="stylebuttons" href="/auth/signup">Sign Up</a>
+            </p>
+        <% } %>
+    </div>
 </body>
 </html>
