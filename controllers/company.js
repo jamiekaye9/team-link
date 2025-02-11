@@ -1,21 +1,25 @@
 const express = require('express')
 const router = express.Router()
 const Company = require('../models/company')
+const User = require('../models/company')
 
 router.get('/:id', async (req, res) => {
     const companyId = req.params.id
     const company = await Company.findById(companyId)
     const companyName = company.companyName
     const workers = company.workers
-    res.render('company/my-company.ejs', {companyId, companyName, workers})
+    const user = req.session.user
+    res.render('company/my-company.ejs', {companyId, companyName, workers, user})
 })
+
 router.get('/:id/add-worker', async (req, res) => {
     const companyId = req.params.id
     const company = await Company.findById(companyId)
     const companyName = company.companyName
+    const user = req.session.user
     let managers = company.workers
     managers = managers.filter(manager => manager.isManager === true)
-    res.render('company/add-worker.ejs', {companyId, managers, companyName})
+    res.render('company/add-worker.ejs', {companyId, managers, companyName, user})
 })
 
 router.post('/:id/add-worker', async (req, res) => {
@@ -44,15 +48,17 @@ router.get('/:id/teams', async (req, res) => {
     const companyId = req.session.user.companyId
     const company = await Company.findById(companyId)
     const companyName = company.companyName
+    const user = req.session.user
     const workers = company.workers
     const teams = [...new Set(company.workers.map(worker => worker.team))]
-    res.render('company/teams.ejs', {companyId, teams, companyName, workers})
+    res.render('company/teams.ejs', {companyId, teams, companyName, workers, user})
 })
 
 router.get('/:id/finances', async (req, res) => {
     const companyId = req.session.user.companyId
     const company = await Company.findById(companyId)
     const companyName = company.companyName
+    const user = req.session.user
     let allSalaries = []
     let totalSalary = 0
     company.workers.forEach(worker => {
@@ -64,16 +70,17 @@ router.get('/:id/finances', async (req, res) => {
     const averageSalary = Math.round(totalSalary/allSalaries.length)
     const highestSalary = Math.max(...allSalaries)
     const lowestSalary = Math.min(...allSalaries)
-    res.render('company/finances.ejs', {totalSalary, companyId, companyName, averageSalary, highestSalary, lowestSalary})
+    res.render('company/finances.ejs', {totalSalary, companyId, companyName, averageSalary, highestSalary, lowestSalary, user})
 })
 
 router.get('/:companyid/:workerid', async (req, res) => {
     const companyId = req.params.companyid   
     const workerId = req.params.workerid
+    const user = req.session.user
     const company = await Company.findById(companyId)
     const companyName = company.companyName
     const worker = company.workers.id(workerId)
-    res.render('company/show.ejs', {worker, companyId, companyName})
+    res.render('company/show.ejs', {worker, companyId, companyName, user})
 })
 
 router.get('/:companyid/:workerid/edit', async (req, res) => {
@@ -81,34 +88,56 @@ router.get('/:companyid/:workerid/edit', async (req, res) => {
     const workerId = req.params.workerid
     const company = await Company.findById(companyId)
     const companyName = company.companyName
+    const user = req.session.user
     const worker = company.workers.id(workerId)
     let managers = company.workers
     managers = managers.filter(manager => manager.isManager === true)
-    res.render('company/edit-worker.ejs', {companyId, worker, managers, companyName})
+    res.render('company/edit-worker.ejs', {companyId, worker, managers, companyName, user})
 })
 
 router.put('/:companyid/:workerid', async (req, res) => {
-    const newFirstName = req.body.firstName
-    const newLastName = req.body.lastName
-    const newJobTitle = req.body.jobTitle
-    const newTeam = req.body.team
-    const newManager = req.body.manager
-    const newSalary = req.body.salary
-    const newIsManager = req.body.isManager
-    const companyId = req.params.companyid
-    const workerId = req.params.workerid
-    const company = await Company.findById(companyId)
-    const worker = company.workers.id(workerId)
-    worker.firstName = newFirstName
-    worker.lastName = newLastName
-    worker.jobTitle = newJobTitle
-    worker.team = newTeam
-    worker.manager = newManager
-    worker.salary = newSalary
-    worker.isManager = newIsManager
-    await company.save()
-    res.redirect(`/company/${companyId}/${workerId}`)
+    try {
+        const newFirstName = req.body.firstName
+        const newLastName = req.body.lastName
+        const newJobTitle = req.body.jobTitle
+        const newTeam = req.body.team
+        const newManager = req.body.manager
+        const newSalary = req.body.salary
+        const newIsManager = req.body.isManager
+        const companyId = req.params.companyid
+        const workerId = req.params.workerid
+        const company = await Company.findById(companyId)
+        const worker = company.workers.id(workerId)
+        worker.firstName = newFirstName
+        worker.lastName = newLastName
+        worker.jobTitle = newJobTitle
+        worker.team = newTeam
+        worker.manager = newManager
+        worker.salary = newSalary
+        worker.isManager = newIsManager
+        await company.save()
+        res.redirect(`/company/${companyId}/${workerId}`)
+    } catch(error) {
+        console.log(error);
+        res.redirect('/error')
+    }
 })
+
+router.get('/:companyid/admins', async (req, res) => {
+    const companyId = req.params.companyid
+    res.render('company/admins.ejs', {companyId})
+})
+
+// router.get('/:companyid/users', async (req, res) => {
+//     console.log(req.session.user);
+//     const companyId = req.params.companyid
+//     const company = await Company.findById(companyId)
+//     const companyName = company.companyName
+//     const user = req.session.user
+//     console.log(req.session.user);
+//     const workers = company.workers
+//     res.render('company/users.ejs', {company, companyId, companyName, user, workers})
+// })
 
 router.delete('/:companyid/:workerid', async (req, res) => {
     const companyId = req.params.companyid
