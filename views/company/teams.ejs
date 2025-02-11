@@ -15,6 +15,7 @@
             <tr>
                 <th class="tableheading">Team Name</th>
                 <th class="tableheading">Team Size</th>
+                <th class="tableheading">Total Salary (£)</th>
             </tr>
           </thead>
           <tbody class="tablebody">
@@ -22,10 +23,14 @@
 
             uniqueTeams.forEach((teamName) => { 
                 const teamSize = workers.filter(worker => worker.team === teamName).length;
+                const totalSalary = workers
+                    .filter(worker => worker.team === teamName)
+                    .reduce((sum, worker) => sum + worker.salary, 0);
         %>
             <tr class="tablerow">
                 <td class="tabledata"><%= teamName %></td>
                 <td class="tabledata"><%= teamSize %></td>
+                <td class="tabledata"><%= totalSalary %></td>
             </tr>
         <% }) %>
           </tbody>

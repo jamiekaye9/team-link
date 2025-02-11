@@ -32,7 +32,14 @@ body {
 }
 
 .input-group {
+    display: flex;
+    align-items: center;
     margin-bottom: 20px;
+}
+
+.input-group label {
+    width: 100px;
+    align-items: center;
 }
 
 button {

@@ -46,6 +46,12 @@
                         <td class="tabledata">Salary (£)</td>
                         <td class="tabledata"><%= worker.salary %></td>
                     </tr>
+                    <tr>
+                        <td class="tabledata">Is a Manager</td>
+                        <td class="tabledata">
+                            <%= worker.isManager ? 'Yes' : 'No' %>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="buttons">

@@ -10,7 +10,7 @@
     <div class="nav">
         <%- include('../partials/_navbar.ejs') %>
     </div>
-    <div class="body">
+    <div class="pagediv">
         <div>
             <h1>Workforce</h1>
         </div>
@@ -24,6 +24,7 @@
                         <th class="tableheading">Team</th>
                         <th class="tableheading">Manager</th>
                         <th class="tableheading">Salary (£)</th>
+                        <th class="tableheading">Is a Manager</th>
                     </tr>
                 </thead>
                 <tbody class="tablebody">
@@ -43,6 +44,9 @@
                             </td>
                             <td class="tabledata">
                                 <%= worker.salary %>
+                            </td>
+                            <td class="tabledata">
+                                <%= worker.isManager ? 'Yes' : 'No' %>
                             </td>
                         </tr>
                     <% }) %>

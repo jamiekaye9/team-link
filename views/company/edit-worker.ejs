@@ -58,12 +58,24 @@
                     </td>
                     <td class="tabledata">
                         <select name="manager" id="manager">
+                            <option value="none" <%= worker.manager === "none" ? "selected" : "" %>>None</option>
+                            <% managers.forEach((manager) => { 
+                                let managerName = manager.firstName + " " + manager.lastName;
+                            %>
+                                <option value="<%= managerName %>" <%= worker.manager === managerName ? "selected" : "" %>>
+                                    <%= managerName %>
+                                </option>
+                            <% }) %>
+                        </select>
+                    </td>
+                    <!-- <td class="tabledata">
+                        <select name="manager" id="manager">
                             <option value="none">None</option>
                             <% managers.forEach((manager) => { %>
                                 <option value='<%=manager.firstName + " " + manager.lastName%>'><%=manager.firstName + " " + manager.lastName%></option>
                             <% }) %>
                         </select>
-                    </td>
+                    </td> -->
                 </tr>
                 <tr class="tablerow">
                     <td class="tabledata">
@@ -78,7 +90,7 @@
                         <label for="isManager">Is a Manager</label>
                     </td>
                     <td class="tabledata">
-                        <input type="checkbox" name="isManager" id="isManager" value="<%= worker.isManager %>">
+                        <input type="checkbox" name="isManager" id="isManager" value="true" <%= worker.isManager ? 'checked' : '' %>>
                     </td>
                 </tr>
             </tbody>

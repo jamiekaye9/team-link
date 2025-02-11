@@ -6,6 +6,11 @@ body {
     flex-direction: row;
     gap: 15px;
     font-family: 'Work Sans', serif;
+    height: 100vh;
+}
+
+html {
+    height: 100vh;
 }
 
 .logo {
@@ -106,6 +111,8 @@ body {
     font-size: 13px;
     text-decoration: none;
     text-align: center;
+    margin-top: 10px;
+
 }
 
 #editworker {
@@ -121,7 +128,8 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: start;
-    align-items: center;
+    padding-left: 30px;
+    overflow-y: auto;
 }
 
 .financeblock {
