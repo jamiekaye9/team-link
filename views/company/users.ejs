@@ -7,7 +7,35 @@
     <link rel="stylesheet" href="/css/company.css">
 </head>
 <body>
-    <!-- <%- include('../partials/_navbar.ejs') %> -->
-    <h1>Users</h1>
+    <div class="nav">
+        <%- include('../partials/_navbar.ejs') %>
+    </div>
+    <div class="pagediv">
+        <div>
+            <h1>Users</h1>
+        </div>
+        <div class="iteams">
+            <table class="table">
+                <thead class="tablehead">
+                    <tr>
+                        <th class="tableheading">Name</th>
+                        <th class="tableheading">Username</th>
+                    </tr>
+                </thead>
+                <tbody class="tablebody">
+                    <% companyUsers.forEach((user)=>{ %>
+                        <tr class="tablerow">
+                            <td class="tabledata">
+                                <%= user.firstName %> <%= user.lastName %>
+                            </td>
+                            <td class="tabledata">
+                                <%= user.username %>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </body>
 </html>

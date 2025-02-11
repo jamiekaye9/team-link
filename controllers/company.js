@@ -1,7 +1,8 @@
 const express = require('express')
 const router = express.Router()
+const mongoose = require('mongoose')
 const Company = require('../models/company')
-const User = require('../models/company')
+const User = require('../models/user')
 
 router.get('/:id', async (req, res) => {
     const companyId = req.params.id
@@ -73,6 +74,15 @@ router.get('/:id/finances', async (req, res) => {
     res.render('company/finances.ejs', {totalSalary, companyId, companyName, averageSalary, highestSalary, lowestSalary, user})
 })
 
+router.get('/:companyid/users', async (req, res) => {
+    const companyId = req.params.companyid
+    const company = await Company.findById(companyId)
+    const companyName = company.companyName
+    const user = req.session.user
+    const companyUsers = await User.find({companyId})
+    res.render('company/users.ejs', {companyId, companyName, user, companyUsers})
+})
+
 router.get('/:companyid/:workerid', async (req, res) => {
     const companyId = req.params.companyid   
     const workerId = req.params.workerid
@@ -122,22 +132,6 @@ router.put('/:companyid/:workerid', async (req, res) => {
         res.redirect('/error')
     }
 })
-
-router.get('/:companyid/users', async (req, res) => {
-    const companyId = req.params.companyid
-    res.render('company/users.ejs', {companyId})
-})
-
-// router.get('/:companyid/users', async (req, res) => {
-//     console.log(req.session.user);
-//     const companyId = req.params.companyid
-//     const company = await Company.findById(companyId)
-//     const companyName = company.companyName
-//     const user = req.session.user
-//     console.log(req.session.user);
-//     const workers = company.workers
-//     res.render('company/users.ejs', {company, companyId, companyName, user, workers})
-// })
 
 router.delete('/:companyid/:workerid', async (req, res) => {
     const companyId = req.params.companyid
