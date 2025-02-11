@@ -123,9 +123,9 @@ router.put('/:companyid/:workerid', async (req, res) => {
     }
 })
 
-router.get('/:companyid/admins', async (req, res) => {
+router.get('/:companyid/users', async (req, res) => {
     const companyId = req.params.companyid
-    res.render('company/admins.ejs', {companyId})
+    res.render('company/users.ejs', {companyId})
 })
 
 // router.get('/:companyid/users', async (req, res) => {
