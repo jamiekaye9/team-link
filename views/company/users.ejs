@@ -20,6 +20,7 @@
                     <tr>
                         <th class="tableheading">Name</th>
                         <th class="tableheading">Username</th>
+                        <th class="tableheading">Admin</th>
                     </tr>
                 </thead>
                 <tbody class="tablebody">
@@ -30,6 +31,9 @@
                             </td>
                             <td class="tabledata">
                                 <%= user.username %>
+                            </td>
+                            <td class="tabledata">
+                                <%= user.admin ? 'Yes' : 'No' %>
                             </td>
                         </tr>
                     <% }) %>

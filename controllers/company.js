@@ -1,6 +1,5 @@
 const express = require('express')
 const router = express.Router()
-const mongoose = require('mongoose')
 const Company = require('../models/company')
 const User = require('../models/user')
 
@@ -34,7 +33,6 @@ router.post('/:id/add-worker', async (req, res) => {
             req.body.manager = null
         }
         const companyId = req.params.id
-        console.log(companyId);
         const company = await Company.findById(companyId)
         company.workers.push(req.body)
         await company.save()
@@ -90,6 +88,8 @@ router.get('/:companyid/:workerid', async (req, res) => {
     const company = await Company.findById(companyId)
     const companyName = company.companyName
     const worker = company.workers.id(workerId)
+    const workerManager = worker.manager
+    console.log(workerManager);
     res.render('company/show.ejs', {worker, companyId, companyName, user})
 })
 

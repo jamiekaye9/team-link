@@ -20,7 +20,11 @@ const userSchema = new mongoose.Schema({
     },
     companyId: {
         type: mongoose.Schema.Types.ObjectId, ref: 'Company', default: null
-    }
+    },
+    admin: {
+        type: Boolean,
+        default: false
+    }  
 })
 
 const User = mongoose.model('User', userSchema)

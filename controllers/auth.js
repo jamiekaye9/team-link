@@ -90,6 +90,7 @@ router.post('/create-company', async (req, res) => {
         const company = await Company.findOne({companyName})
         const user = await User.findById(req.session.user.id)
         user.companyId = company._id
+        user.admin = true
         await user.save()
         req.session.user.companyId = company._id
         res.redirect(`/company/${company._id}`)
