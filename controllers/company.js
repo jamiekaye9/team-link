@@ -99,8 +99,14 @@ router.get('/:companyid/:workerid', async (req, res) => {
     const workerId = req.params.workerid
     const user = req.session.user
     const company = await Company.findById(companyId)
+    let worker = company.workers.id(workerId)
+    const manager = company.workers.id(worker.manager)
+    if (!worker.manager) {
+        worker = {...worker.toObject(), manager: "None"};
+    } else {
+        worker = {...worker.toObject(), manager: `${manager.firstName} ${manager.lastName}`};
+    }
     const companyName = company.companyName
-    const worker = company.workers.id(workerId)
     res.render('company/show.ejs', {worker, companyId, companyName, user})
 })
 
@@ -122,7 +128,12 @@ router.put('/:companyid/:workerid', async (req, res) => {
         const newLastName = req.body.lastName
         const newJobTitle = req.body.jobTitle
         const newTeam = req.body.team
-        const newManager = req.body.manager 
+        if (req.body.manager === '') {
+            req.body.manager = null
+        } else {
+            req.body.manager = new mongoose.Types.ObjectId(req.body.manager.toString())
+        }
+        const newManager = req.body.manager
         const newSalary = req.body.salary
         const newIsManager = req.body.isManager
         const companyId = req.params.companyid
@@ -148,6 +159,11 @@ router.delete('/:companyid/:workerid', async (req, res) => {
     const companyId = req.params.companyid
     const workerId = req.params.workerid
     const company = await Company.findById(companyId)
+    company.workers.forEach(worker => {
+        if (worker.manager && worker.manager.toString() === workerId) {
+            worker.manager = null;
+        }
+    })
     company.workers.pull({_id: workerId})
     await company.save()
     res.redirect(`/company/${companyId}`)

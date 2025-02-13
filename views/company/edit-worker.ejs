@@ -58,24 +58,12 @@
                     </td>
                     <td class="tabledata">
                         <select name="manager" id="manager">
-                            <option value="none" <%= worker.manager === "none" ? "selected" : "" %>>None</option>
-                            <% managers.forEach((manager) => { 
-                                let managerName = manager.firstName + " " + manager.lastName;
-                            %>
-                                <option value="<%= managerName %>" <%= worker.manager === managerName ? "selected" : "" %>>
-                                    <%= managerName %>
-                                </option>
+                            <option id="manager" value="" <%= !worker.manager ? 'selected' : '' %>>None</option>
+                            <% managers.forEach((manager) => { %>
+                                <option value="<%= manager._id %>" <%= worker.manager && worker.manager.toString() === manager._id.toString() ? 'selected' : '' %>><%= manager.firstName%> <%=manager.lastName%></option>
                             <% }) %>
                         </select>
                     </td>
-                    <!-- <td class="tabledata">
-                        <select name="manager" id="manager">
-                            <option value="none">None</option>
-                            <% managers.forEach((manager) => { %>
-                                <option value='<%=manager.firstName + " " + manager.lastName%>'><%=manager.firstName + " " + manager.lastName%></option>
-                            <% }) %>
-                        </select>
-                    </td> -->
                 </tr>
                 <tr class="tablerow">
                     <td class="tabledata">
