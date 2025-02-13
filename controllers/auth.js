@@ -29,7 +29,6 @@ router.post('/signup', async (req, res) => {
         const hashedPassword = await bcrypt.hashSync(password, 10)
         await User.create({firstName, lastName, username, password: hashedPassword})
         res.redirect('/auth/signin')
-        console.log(username)
     } catch(error) {
         console.log(error)
         res.redirect('/error') 
