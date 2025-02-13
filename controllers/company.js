@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const mongoose = require('mongoose')
 const Company = require('../models/company')
 const User = require('../models/user')
 
@@ -7,7 +8,16 @@ router.get('/:id', async (req, res) => {
     const companyId = req.params.id
     const company = await Company.findById(companyId)
     const companyName = company.companyName
-    const workers = company.workers
+    let workers = company.workers.map(worker => {
+        if (!worker.manager) {
+            return { ...worker.toObject(), manager: "None" }; 
+        }
+        const manager = company.workers.id(worker.manager);
+        return {
+            ...worker.toObject(), 
+            manager: manager ? `${manager.firstName} ${manager.lastName}` : "None"
+        };
+    });
     const user = req.session.user
     res.render('company/my-company.ejs', {companyId, companyName, workers, user})
 })
@@ -24,21 +34,24 @@ router.get('/:id/add-worker', async (req, res) => {
 
 router.post('/:id/add-worker', async (req, res) => {
     try {
+        const companyId = req.params.id
         if (req.body.isManager === 'on') {
             req.body.isManager = true
         } else {
             req.body.isManager = false
         }
-        if (req.body.manager === 'None') {
+        if (req.body.manager === '') {
             req.body.manager = null
+        } else {
+            req.body.manager = new mongoose.Types.ObjectId(req.body.manager.toString())
         }
-        const companyId = req.params.id
         const company = await Company.findById(companyId)
         company.workers.push(req.body)
         await company.save()
         res.redirect(`/company/${companyId}`)
     } catch(error) {
-        console.log(error)
+        console.log(error);
+        
         res.redirect('/error')
     }
 })
@@ -88,8 +101,6 @@ router.get('/:companyid/:workerid', async (req, res) => {
     const company = await Company.findById(companyId)
     const companyName = company.companyName
     const worker = company.workers.id(workerId)
-    const workerManager = worker.manager
-    console.log(workerManager);
     res.render('company/show.ejs', {worker, companyId, companyName, user})
 })
 
@@ -111,7 +122,7 @@ router.put('/:companyid/:workerid', async (req, res) => {
         const newLastName = req.body.lastName
         const newJobTitle = req.body.jobTitle
         const newTeam = req.body.team
-        const newManager = req.body.manager
+        const newManager = req.body.manager 
         const newSalary = req.body.salary
         const newIsManager = req.body.isManager
         const companyId = req.params.companyid

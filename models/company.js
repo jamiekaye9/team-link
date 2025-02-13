@@ -18,8 +18,7 @@ const workerSchema = new mongoose.Schema({
         required: true
     },
     manager: {
-        type: String,
-        required: false
+        type: mongoose.Schema.Types.ObjectId, ref: 'Company', default: null
     },
     salary: {
         type: Number,

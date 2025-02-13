@@ -56,10 +56,13 @@
                         </td>
                         <td class="tabledata">
                             <select name="manager" id="manager">
-                                <option id="manager" value="none">None</option>
+                                <option id="manager" value="">None</option>
                                 <% managers.forEach((manager) => { %>
-                                    <option value="<%= manager.firstName + ' ' + manager.lastName %>"><%= manager.firstName + ' ' + manager.lastName %></option>
+                                    <option value="<%= manager._id %>"><%= manager.firstName%> <%=manager.lastName%></option>
                                 <% }) %>
+                                <!-- <% managers.forEach((manager) => { %>
+                                    <option value="<%= manager._id.toString()%>"><%= manager.firstName%> <%=manager.lastName%></option>
+                                <% }) %> -->
                             </select>
                         </td>
                     </tr>
