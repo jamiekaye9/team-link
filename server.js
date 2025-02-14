@@ -5,7 +5,7 @@ const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
-const MongoStore = require('connect-mongo')(session);
+const MongoStore = require('connect-mongo');
 const session = require('express-session')
 const methodOverride = require('method-override')
 
@@ -26,7 +26,7 @@ app.use(
         secret: process.env.SESSION_SECRET,
         resave: false,
         saveUninitialized: false,
-        store: new MongoStore({
+        store: new MongoStore.create({
             mongoURL: process.env.MONGODB_URI,
             collectionName: 'sessions',
         }),
