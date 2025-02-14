@@ -45,6 +45,7 @@ app.get('/', (req, res) => {
 })
 
 app.get('/error', (req, res) => {
+    req.session.destroy()
     res.render('error.ejs')
 })
 
