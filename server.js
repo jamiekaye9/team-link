@@ -26,7 +26,7 @@ app.use(
         secret: process.env.SESSION_SECRET,
         resave: false,
         saveUninitialized: false,
-        store: new MongoStore({
+        store: MongoStore.create({
             mongoURL: process.env.MONGODB_URI,
             collectionName: 'sessions',
         }),
