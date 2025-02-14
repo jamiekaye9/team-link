@@ -5,6 +5,7 @@ const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
+const MongoStore = require('connect-mongo')(session);
 const session = require('express-session')
 const methodOverride = require('method-override')
 
@@ -24,7 +25,11 @@ app.use(
     session({
         secret: process.env.SESSION_SECRET,
         resave: false,
-        saveUninitialized: true
+        saveUninitialized: true,
+        store: new MongoStore({
+            mongooseConnection: mongoose.connection,
+            ttl: 14 * 24 * 60 * 60
+    })
     })
 )
 
