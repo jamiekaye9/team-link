@@ -40,6 +40,10 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.get('/', (req, res) => {
+    if (req.session.user) {
+        const companyId = req.session.user.companyId
+        return res.redirect(`/company/${companyId}`)
+    }
     const user = req.session.user
     res.render('index.ejs', {user})
 })
