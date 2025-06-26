@@ -1,6 +1,6 @@
 # Team Link
 
-!(Logo)[public/images/readmelogo.png]
+![Logo](public/images/readmelogo.png)
 
 ## Description
 
