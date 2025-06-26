@@ -1,5 +1,7 @@
 # Team Link
 
+!(Logo)[public/images/readmelogo.png]
+
 ## Description
 
 Team Link is my second development project, where I built on my existing knowledge of HTML, CSS, and JavaScript, while also diving into MongoDB, Express, and EJS for the first time. It’s an HR management app that lets users build and manage their company’s workforce. Having been involved in a Workday implementation as a Business Analyst, I’ve seen firsthand both the capabilities and limitations of a leading HR system. This project was a great opportunity to explore the technical side of that kind of platform and deepen my understanding of how the solutions I once helped define are actually built.
