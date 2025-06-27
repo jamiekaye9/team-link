@@ -27,7 +27,7 @@ This was a solo project, build in the timeframe of 1 week.
 
 ## Technologies Used
 
-EJS, JavaScript, Express, CSS, Bcrypt.
+EJS, JavaScript, Express, CSS, Bcrypt, Node.js
 
 ## Brief
 
