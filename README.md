@@ -12,18 +12,22 @@ Team Link is my second development project, where I built on my existing knowled
 
 ## Getting Started/Code Installation
 
-1. Clone Git repository: git clone https://github.com/jamiekaye9/team-link
-2. Navigate into the project folder: cd team-link
-3. Install dependencies: npm install
-4. Create an env file inside the project folder, containing:
-   - MONGODB_URI (your MongoDB token)
-   - PORT (the port you are localling hosting the application on)
-   - SESSION_SECRET (a secret key for the project)
-5. Run 'npm start' in your terminal to start the server
+1. Clone the GitHub repository:
+  - git clone https://github.com/jamiekaye9/team-link
+2. Navigate into the project folder:
+  - cd team-link
+3. Install dependencies:
+  - npm install
+4. Create an .env file inside the project folder containing:
+  - MONGODB_URI=your_mongodb_token
+  - PORT=your_port_number
+  - SESSION_SECRET=your_secret_key
+5. Start the server:
+  - npm start
 
 ## Timeframe & Working Team
 
-This was a solo project, build in the timeframe of 1 week.
+This was a solo project, built in the timeframe of 1 week.
 
 ## Technologies Used
 
